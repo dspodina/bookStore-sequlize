@@ -39,31 +39,33 @@ const bookControllers = {
         res.status(200).render('add-book-form');
     },
     addBook: async (req, res) => {
-        const { title, author, price, img, user_id } = req.body;
+        const { title, author, price, img } = req.body;
         const userId = req.cookies.userId;
         try {
+            // Check if all fields are present
             if (title && author && price && img && userId) {
                 const newBook = await Book.create({
-                    title: title,
-                    author: author,
-                    price: price,
-                    img: img,
+                    title,
+                    author,
+                    price,
+                    img,
                     user_id: userId
                 });
-                res.status(200).render('book', { book: newBook });
+                return res.status(302).redirect('/api/books');
             } else {
-                res.status(400).render('404', {
+                // If validation fails, respond with an error
+                return res.status(400).render('404', {
                     title: 'Error',
                     message: 'All fields are required'
                 });
             }
         } catch (err) {
-            res.status(500).render('404', {
-                title: `Error`,
-                message: `Some error occurred while adding a book`
+            return res.status(500).send({
+                title: 'Error',
+                message: 'Some error occurred while adding a book'
             });
         }
-    },    
+    },
     updateBookForm: async (req, res) => {
         const { id } = req.params;
         try {
