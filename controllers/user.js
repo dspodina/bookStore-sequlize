@@ -54,6 +54,9 @@ const userControllers = {
                 message: 'User not found, please register'
             });
         }
+        // Save user ID as a cookie
+        res.cookie('userID', userExist.id);
+
         bcrypt.compare(password, userExist.password, (err, isValid) => {
             if (err) {
                 console.error(err);

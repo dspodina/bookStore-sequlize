@@ -1,21 +1,37 @@
-import { title } from 'process';
 import db from '../models/index.js';
 
 const Book = db.books;
 
 const bookControllers = {
     getAllBooks: async (req, res) => {
-        const books = await Book.findAll();
+        try {
+            const books = await Book.findAll();
+            const token = req.cookies.token;
+            res.status(200).render('books', { books, token });
+        } catch (err) {
+            res.status(500).render('404', {
+                title: 'Some error occurred while retrieving books',
+                message: 'Some error occurred while retrieving books'
+            });
+        }
     },
     getBookById: async (req, res) => {
         const { id } = req.params;
-        const book = await Book.findOne({ id });
-        if (book) {
-            res.status(200).render('book');
-        } else {
-            res.status(404).render('404', {
+        try {
+            const book = await Book.findOne({ where: { id } });
+            const token = req.cookies.token;
+            if (book) {
+                res.status(200).render('book', { book, token });
+            } else {
+                res.status(404).render('404', {
+                    title: 'Error',
+                    message: 'Book not found'
+                });
+            }
+        } catch (err) {
+            res.status(500).render('404', {
                 title: 'Error',
-                message: 'Book not found'
+                message: 'An error occurred'
             });
         }
     },
@@ -24,21 +40,77 @@ const bookControllers = {
     },
     addBook: async (req, res) => {
         const { title, author, price, img, user_id } = req.body;
-
-        const newBook = {
-            title: title,
-            author: author,
-            price: price,
-            img: img,
-            user_id: user_id
-        };
-
-        const book = await Book.create(newBook);
-        res.status(300).redirect('/api/books');
+        const userId = req.cookies.userId;
+        try {
+            if (title && author && price && img && userId) {
+                const newBook = await Book.create({
+                    title: title,
+                    author: author,
+                    price: price,
+                    img: img,
+                    user_id: userId
+                });
+                res.status(200).render('book', { book: newBook });
+            } else {
+                res.status(400).render('404', {
+                    title: 'Error',
+                    message: 'All fields are required'
+                });
+            }
+        } catch (err) {
+            res.status(500).render('404', {
+                title: `Error`,
+                message: `Some error occurred while adding a book`
+            });
+        }
+    },    
+    updateBookForm: async (req, res) => {
+        const { id } = req.params;
+        try {
+            const book = await Book.findOne({ where: { id } });
+            if (book) {
+                res.status(200).render('update-book-form', { book });
+            } else {
+                res.status(404).render('404', {
+                    title: 'Error',
+                    message: 'Book not found'
+                });
+            }
+        } catch (err) {
+            res.status(500).render('404', {
+                title: 'Error',
+                message: 'An error occurred'
+            });
+        }
     },
-    updateBookForm: (req, res) => {},
-    updateBook: async (req, res) => {},
-    deleteBook: async (req, res) => {}
+    updateBook: async (req, res) => {
+        const { id } = req.params;
+        const { title, author, price, img } = req.body;
+        try {
+            const updateBook = await Book.update(
+                { title, author, price, img },
+                { where: { id } }
+            );
+            res.status(302).redirect('/api/books');
+        } catch (err) {
+            res.status(404).render('404', {
+                title: 'Error',
+                message: 'Book was not updated'
+            });
+        }
+    },
+    deleteBook: async (req, res) => {
+        const { id } = req.params;
+        try {
+            const deletedBook = await Book.destroy({ where: { id } });
+            res.status(302).redirect('/api/books');
+        } catch (err) {
+            res.status(404).render('404', {
+                title: 'Error',
+                message: 'The book was not deleted'
+            });
+        }
+    }
 };
 
 export default bookControllers;

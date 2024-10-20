@@ -19,7 +19,7 @@ router.get('/books/:id', getBookById);
 router.get('/add-book', addBookForm);
 router.post('/add-book', addBook);
 router.get('/update-book/:id', updateBookForm);
-router.put('/update-book/:id', updateBook);
+router.post('/update-book/:id', updateBook);
 router.delete('/delete-book/:id', deleteBook);
 
 export default router;

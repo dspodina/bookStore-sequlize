@@ -3,25 +3,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 :root {
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --background-color: #f0f2f5;
-    --text-color: #333;
-    --label-color: #555;
-    --form-background: #fff;
-    --input-border: #ccc;
+    --primary-color: #3498db;
+    --primary-hover: #2980b9;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --label-color: #34495e;
+    --form-background: #ffffff;
+    --input-border: #bdc3c7;
     --input-focus-border: var(--primary-color);
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Ensure full height layout */
-html, body {
+html,
+body {
     height: 100%;
-    margin: 0 50px;
+    margin: 0 40px;
     background-color: var(--background-color);
     color: var(--text-color);
     display: flex;
@@ -33,20 +34,21 @@ header {
     display: flex;
     justify-content: space-between;
     text-align: center;
-    margin: 50px 0;
+    margin: 30px 0;
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--text-color);
 }
 
+/* Books container */
 .books-container {
     width: 400px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 70px;
-    gap: 5px;
+    margin-bottom: 50px;
+    gap: 10px;
 }
 
 /* Navigation styles */
@@ -58,46 +60,50 @@ ul {
 }
 
 li {
-    margin: 0 20px;
-    font-size: 1rem;
+    margin: 0 15px;
+    font-size: 1.1rem;
 }
 
 nav a {
-    color: var(--text-color); 
+    color: var(--text-color);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 nav a:hover {
-    color: var(--primary-hover); 
+    color: var(--primary-hover);
 }
 
 /* Button styles */
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: var(--primary-color);
-    color: #f0f2f5;
+    color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 5px;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 5px 0;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+    margin: 10px 0;
 }
 
 button:hover {
     background-color: var(--primary-hover);
+    transform: translateY(-2px);
 }
 
 /* Ensure links inside buttons are white */
 button a {
-    color: white; 
+    color: white;
     text-decoration: none;
     display: block;
 }
 
 button a:hover {
-    color: white; 
+    color: white;
 }
 
 /* Form container */
@@ -107,13 +113,13 @@ form {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px var(--shadow-color);
     width: 100%;
     max-width: 400px;
     position: absolute;
-    top: 200px; 
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -121,26 +127,28 @@ form {
 /* Form elements */
 label {
     display: block;
-    margin-bottom: 8px;
-    font-size: 1rem;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
     color: var(--label-color);
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 20px;
     border: 1px solid var(--input-border);
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 1rem;
     color: var(--text-color);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 input:focus {
     border-color: var(--input-focus-border);
     outline: none;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
 }
 
 /* Responsive design */
@@ -159,13 +167,13 @@ input:focus {
     }
 
     form {
-        padding: 15px;
-        max-width: 100%;
-        top: 120px; 
+        padding: 20px;
+        max-width: 90%;
+        top: 150px;
     }
 
     h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 }
 
@@ -175,6 +183,6 @@ input:focus {
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 }
